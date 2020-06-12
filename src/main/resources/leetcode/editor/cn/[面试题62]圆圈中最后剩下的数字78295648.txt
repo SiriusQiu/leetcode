@@ -1,0 +1,52 @@
+class Solution {
+    public int lastRemaining(int n, int m) {
+        if(n==0) return -1;
+        if (n==1) return 0;
+        Node head = null;
+        Node current = null;
+        int i = 0;
+        while (i < n){
+            Node node = new Node();
+            node.value = i;
+            if (i == 0) {
+                head = node;
+                current = node;
+            }else {
+                current.next = node;
+                node.prev = current;
+                current = node;
+            }
+            i++;
+        }
+        current.next = head;
+        head.prev = current;
+        while (head != head.next){
+            int j = m - 1;
+            while (j > 0){
+                head = head.next;
+                j--;
+            }
+            Node prev = head.prev;
+            Node next = head.next;
+            prev.next = next;
+            next.prev = prev;
+            head = next;
+        }
+        return head.value;
+    }
+    private static class Node{
+        int value;
+        Node next;
+        Node prev;
+    }
+}
+
+//runtime:N/A
+//memory:N/A
+//total_testcases:36
+//total_correct:26
+//input_formatted:
+//expected_output:
+//code_output:null
+//runtime_error:null
+//last_testcase:70866 116922
