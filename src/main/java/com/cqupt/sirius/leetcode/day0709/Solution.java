@@ -2,6 +2,7 @@ package com.cqupt.sirius.leetcode.day0709;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 public class Solution {
     private static class Node{
@@ -114,10 +115,90 @@ public class Solution {
         return index;
     }
 
+    public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+        char[] chars = s.toCharArray();
+        for (char ch : chars){
+            if (ch == '('||ch == '['||ch == '{'){
+                stack.push(ch);
+            }else if (ch == ')'){
+                if(!stack.empty()&&stack.peek()=='(') stack.pop();
+                else return false;
+            }else if (ch == ']'){
+                if(!stack.empty()&&stack.peek()=='[') stack.pop();
+                else return false;
+            }else if (ch == '}'){
+                if(!stack.empty()&&stack.peek()=='{') stack.pop();
+                else return false;
+            }
+        }
+
+
+        return stack.isEmpty();
+
+    }
+    public int[] dailyTemperatures(int[] T) {
+        int[] result = new int[T.length];
+        result[T.length-1] = 0;
+        retry:
+        for (int i = 0; i < T.length-1; i++){
+            int temp = T[i];
+            for (int j = i+1; j < T.length; j++){
+                if (T[j] > temp){
+                    result[i] = j-i;
+                    continue retry;
+                }
+            }
+            result[i] = 0;
+        }
+        return result;
+    }
+
+    public int evalRPN(String[] tokens) {
+        int result = 0;
+        Stack<Integer> stack = new Stack<>();
+        retry:
+        for (String token : tokens){
+            if (token.length()==1){
+                switch (token.toCharArray()[0]){
+                    case '+':{
+                        int a = stack.pop();
+                        int b = stack.pop();
+                        stack.push(a+b);
+                        continue retry;
+                    }case '-':{
+                        int a = stack.pop();
+                        int b = stack.pop();
+                        stack.push(b-a);
+                        continue retry;
+                    }case '*':{
+                        int a = stack.pop();
+                        int b = stack.pop();
+                        stack.push(a*b);
+                        continue retry;
+                    }case '/':{
+                        int a = stack.pop();
+                        int b = stack.pop();
+                        stack.push(b/a);
+                        continue retry;
+                    }
+                }
+            }
+            int num = Integer.valueOf(token);
+            stack.push(num);
+        }
+        return stack.pop();
+    }
+
     public static void main(String[] args) {
-        Solution solution = new Solution();
-        String[] strings = new String[]{"0000"};
-        String str = "8888";
-        System.out.println(solution.openLock(strings, str));
+//        Solution solution = new Solution();
+//        String[] strings = new String[]{"2","1","+","3","*"};
+//        String str = "8888";
+//        System.out.println(solution.evalRPN(strings));
+        String str = "许家铭";
+        for (char a : str.toCharArray()){
+            System.out.println(a);
+            System.out.println((int)a);
+        }
     }
 }
