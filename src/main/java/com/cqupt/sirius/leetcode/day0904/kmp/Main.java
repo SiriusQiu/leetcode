@@ -15,17 +15,16 @@ public class Main {
         int[] next = new int[n];
         next[0] = -1;
         for (int i = 1, j = -1; i < n; i++){
-            //两种中止情况：1. j为0，2, i=j+1，如果i=j+1，那么就是next[i]=j+1,如果
             while (j!=-1&&p.charAt(i)!=p.charAt(j+1)) j = next[j];
-            if (p.charAt(i)==p.charAt(j+1)) j++;
+            if (p.charAt(i) == p.charAt(j+1)) j++;
             next[i] = j;
         }
         for (int i = 0, j = -1; i < m; i++){
-            while (j!=-1&&s.charAt(i)!=p.charAt(j+1)) j = next[j];
-            if (s.charAt(i)==p.charAt(j+1)) j++;
-            if (j==n-1) {
-                System.out.print((i - n + 1) + " ");
-                j = next[j];
+            while (j!=-1&& s.charAt(i)!=p.charAt(j+1)) j = next[j];
+            if (s.charAt(i) == p.charAt(j+1)) j++;
+            if (j==n-1){
+                System.out.println(i-j);
+                break;
             }
         }
     }
